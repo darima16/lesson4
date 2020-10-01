@@ -19,5 +19,9 @@ public class Person {
         return surname;
     }
 
+    public String getData() {
+        return data;
+    }
+
 
 }

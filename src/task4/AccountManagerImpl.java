@@ -18,11 +18,12 @@ public class AccountManagerImpl implements AttemptManager {
                     throw new DuplicateAccountException();
                 }
             }
-            read.close();
+            //read.close();
             FileWriter write = new FileWriter(dir, true);
             BufferedWriter writer = new BufferedWriter(write);
-            writer.write(email+","+password+","+person.getName()+","+person.getSurname()+"\n");
-
+            writer.write("\n"+email+","+password+","+person.getName()+","+person.getSurname()+","+person.getData());
+            read.close();
+            writer.close();
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
@@ -81,7 +82,6 @@ public class AccountManagerImpl implements AttemptManager {
 
             String line;
             String[] subLine;
-            boolean bool = false;
 
             while ((line =reader.readLine()) != null) {
                 subLine = line.split(",");
@@ -105,21 +105,22 @@ public class AccountManagerImpl implements AttemptManager {
 
             String line;
             String[] subLine;
-            boolean bool = false;
 
             while ((line =reader.readLine()) != null) {
                 subLine = line.split(",");
                 if (subLine[0].equals(email) && subLine[1].equals(password)) {
-                    Person person = new Person(subLine[2], subLine[3], subLine[4]);
-                    return person;
+                    Person pers = new Person(subLine[2], subLine[3], subLine[4]);
+                    return pers;
                 }
             }
             reader.close();
-            AttemptCounter counter = new AttemptCounter();
+            AttemptCounter counter = AttemptCounter.getInstance();
+
             if (counter.count > 5) {
                 throw new TooManyLoginAttemptsException();
             }
             else {
+                System.out.println(counter.count);
                 throw new WrongCredentialsException();
             }
         }
@@ -132,7 +133,8 @@ public class AccountManagerImpl implements AttemptManager {
 
     @Override
     public int numOfAccounts() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
+        File file = new File("C:\\Users\\User\\IdeaProjects\\task4\\src\\task4","data.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         int lines = 0;
         while (reader.readLine() != null) lines++;
         reader.close();
