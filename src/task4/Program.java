@@ -30,7 +30,7 @@ public class Program {
 
         // удалим существующий аккаунт
         try {
-            mailManager.removeAccount("olga56@mail.ru","lkoi900");
+            mailManager.removeAccount("k.petrov@mail.ru","kkk809");
         } catch (WrongCredentialsException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,16 @@ public class Program {
             e.printStackTrace();
         }
 
-        //
+        // выведем существующий аккаунт
+        try {
+            System.out.println(mailManager.getPerson("f.himnovs@mail.ru", "qwerty123"));
+        } catch (TooManyLoginAttemptsException e) {
+            e.printStackTrace();
+        } catch (WrongCredentialsException e) {
+            e.printStackTrace();
+        }
+
+
         try {
             System.out.println(mailManager.getPerson("f.himnovs@mail.ru", "qwerty12"));
         } catch (TooManyLoginAttemptsException e) {

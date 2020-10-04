@@ -2,7 +2,7 @@ package task4;
 
 public class AttemptCounter {
     private static AttemptCounter instance;
-    public int count;
+    private int count;
     public static synchronized AttemptCounter getInstance() {
         if (instance==null) {
             instance = new AttemptCounter();
@@ -10,5 +10,9 @@ public class AttemptCounter {
         }
         instance.count++;
         return instance;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

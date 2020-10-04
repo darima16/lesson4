@@ -1,6 +1,6 @@
 email,password,name,surname
-f.himnovs@mail.ru,qwerty123,Фарида,Химнова
-s.ivanova@mail.ru,ghji3,Светлана,Иванова
-e.limonova@mail.ru,katia67,Екатерина,Лиманова
-k.petrov@mail.ru,kkk809,Коснстантин,Петров
-o.tonga@mail.ru,klumba199,Ольга,Тонга
+f.himnovs@mail.ru,qwerty123,Фарида,Химнова,12.03.1996
+s.ivanova@mail.ru,ghji3,Светлана,Иванова,02.05.2000
+e.limonova@mail.ru,katia67,Екатерина,Лиманова,01.12.1956
+k.petrov@mail.ru,kkk809,Коснстантин,Петров,14.11.1988
+o.tonga@mail.ru,klumba199,Ольга,Тонга,14.01.2001

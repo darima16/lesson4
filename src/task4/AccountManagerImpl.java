@@ -18,7 +18,6 @@ public class AccountManagerImpl implements AttemptManager {
                     throw new DuplicateAccountException();
                 }
             }
-            //read.close();
             FileWriter write = new FileWriter(dir, true);
             BufferedWriter writer = new BufferedWriter(write);
             writer.write("\n"+email+","+password+","+person.getName()+","+person.getSurname()+","+person.getData());
@@ -35,10 +34,9 @@ public class AccountManagerImpl implements AttemptManager {
     public void removeAccount(String email, String password) throws WrongCredentialsException {
         try {
             File file = new File("C:\\Users\\User\\IdeaProjects\\task4\\src\\task4","data.txt");
-            File newFile = new File("data2.txt");
 
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+            String mainLine = "";
 
             String line;
             String[] subLine;
@@ -50,21 +48,25 @@ public class AccountManagerImpl implements AttemptManager {
                     bool = true;
                 }
                 else {
-                    writer.write(line);
-                    writer.newLine();
+                    mainLine += "\n";
+                    mainLine += line;
                 }
             }
 
             if (bool) {
+                File rfile = new File("C:\\Users\\User\\IdeaProjects\\task4\\src\\task4","data.txt");
+                BufferedWriter rwriter = new BufferedWriter(new FileWriter(rfile));
+                rwriter.write(mainLine);
+
+
+                rwriter.close();
                 reader.close();
-                writer.close();
-                file.delete();
-                newFile.renameTo(file);
+
+
             }
             else {
+
                 reader.close();
-                writer.close();
-                newFile.delete();
                 throw new WrongCredentialsException();
             }
         }
@@ -99,9 +101,10 @@ public class AccountManagerImpl implements AttemptManager {
 
     @Override
     public Person getPerson(String email, String password) throws TooManyLoginAttemptsException, WrongCredentialsException {
+        BufferedReader reader = null;
         try {
             File file = new File("C:\\Users\\User\\IdeaProjects\\task4\\src\\task4","data.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            reader = new BufferedReader(new FileReader(file));
 
             String line;
             String[] subLine;
@@ -113,20 +116,26 @@ public class AccountManagerImpl implements AttemptManager {
                     return pers;
                 }
             }
-            reader.close();
+
             AttemptCounter counter = AttemptCounter.getInstance();
 
-            if (counter.count > 5) {
+            if (counter.getCount() > 5) {
                 throw new TooManyLoginAttemptsException();
             }
             else {
-                System.out.println(counter.count);
                 throw new WrongCredentialsException();
             }
         }
 
         catch(IOException ex){
             System.out.println(ex.getMessage());
+        } finally {
+
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
